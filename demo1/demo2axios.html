@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>狂神</title>
+</head>
+<script src="../js/vue.js"></script>
+
+<body>
+    <input type="radio" name="nan" checked='checked' value="1" />11
+    <input type="radio" name="nan" value="0" checked/>00
+    <div id="vue">
+        <!-- 模板内容导入xun是自定义导入的 -->
+        <myhead v-for='item in arr' :xun='item'></myhead>
+        <span :title='message'>看信息！</span>
+        <h1 v-if='flag'>打开了</h1>
+        <ul>
+            <li v-for='(item,index) in arr'>{{arr[index]}}</li>
+        </ul>
+        <button @click='sayShameless'>点我</button>
+        <input type="text" v-model='message3'>{{message3}}
+        <input type="radio" name="call" id="" v-model='choose' value="0" checked='1' />0
+        <input type="radio" name="call" id="" v-model='choose' value="1">1
+        <p>{{choose}}</p>
+    </div>
+</body>
+<!-- CDN引入 -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    Vue.component('myhead',{
+        // 模板内容
+        template:'<h1>{{xun}}</h1>',
+        props:['xun'],
+    })
+    var vm = new Vue({
+        el: '#vue',
+        data() {
+            return {
+                message: '测试用这哪',
+                message2: '方法成功',
+                message3: '可以咯',
+                flag: 0,
+                choose: '',
+                arr: ['第一项', '第二像'],
+            }
+        },
+        methods: {
+            sayShameless: function() {
+                alert(this.message2)
+            }
+        },
+        // 钩子函数
+        mounted() {
+            axios.get('../data/data1.json').then(response=>{
+                console.log(response.data);
+            })
+        },
+    })
+</script>
+
+</html>

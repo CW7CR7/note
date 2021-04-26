@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">防抖</button>
+</body>
+<script src="./vueDemo/js/jQuery-2.1.4.min.js"></script>
+<script>
+    // 一般这个方法是发送ajax请求
+    function clickBtn(e) {
+        console.log('click');
+        console.log(e);
+    }
+    $('#btn').click(debounce(clickBtn, 1000, false))
+    // 为什么要用arguments呢？因为你不知道形参的数量，方法，时间间隔内可以触发一次，第一次是否可以直接触发
+    function debounce(fn, timer, triggleNow) {
+        var t = null
+        return function () {
+            if (t) {
+                // 清除上一个定时器
+                clearTimeout(t)
+            }
+            // 这里为什么用箭头函数呢？因为如果用普通函数，arguments就是setimenout函数的arguments，也就是undefined
+            // 现在还不够好，因为用户第一次点击时候肯定是可以打印的
+            // 如果是第一次点击
+            if (triggleNow) {
+                var firstClick = !t
+                if (firstClick) {
+                    fn.apply(this, arguments)
+                }
+                // 下面还需要写一些逻辑 不然就没有防抖的功能了
+                t = setTimeout(() => { t = null }, timer)
+                console.log(t, 38);
+            } else {
+                t = setTimeout(() => {
+                    fn.apply(null, arguments)
+                }, timer)
+                console.log(t, 41);
+            }
+        }
+    }
+</script>
+
+</html>

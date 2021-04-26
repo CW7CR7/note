@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流</title>
+</head>
+
+<body>
+    <p>减少一段时间内的触发频率,多次发送请求，比如定义了5s，那么5s内只能发送一次</p>
+    <button id="btn">节流按钮</button>
+
+</body>
+<script src="./vueDemo/js/jQuery-2.1.4.min.js"></script>
+<script>
+    function clickBtn() { console.log('发送请求'); }
+    $('#btn').click(throttle(clickBtn, 1000))
+    function throttle(fn, delay) {
+        var begin = 0
+        return function () {
+            var cur = new Date().getTime()
+            if (cur - begin > delay) {
+                fn.apply(this, arguments)
+                begin = cur
+            }
+        }
+    }
+</script>
+
+</html>
